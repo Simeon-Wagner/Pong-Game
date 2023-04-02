@@ -20,9 +20,13 @@ const Color primaryMenuColor = Colors.teal;
 Color? secondaryMenuColor = Colors.teal[50];
 
 class _HomePageState extends State<HomePage> {
+
+  double brickRelWidth = 0;
   // Ball variables
   double ballX = 0;
   double ballY = 0;
+
+
 
   double brickWidth = 0.4;
 
@@ -81,10 +85,12 @@ class _HomePageState extends State<HomePage> {
       enemyX = -0.2;
     });
   }
+
+  
   void updateDirection(){
-    if(ballY >= 0.9 && ballX >= playerX && ballX <= playerX + brickWidth){
+    if(ballY >= (0.9-brickRelWidth) && ballX >= playerX && ballX <= playerX + brickWidth){
       ballYDirection = direction.UP;
-    } else if(ballY <= -0.9 && ballX >= enemyX && ballX <= enemyX+brickWidth) {
+    } else if(ballY <= (-0.9+brickRelWidth) && ballX >= enemyX && ballX <= enemyX+brickWidth) {
       ballYDirection = direction.DOWN;
     }
 
@@ -187,6 +193,9 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
+    //Just a try
+    brickRelWidth = (20 / MediaQuery.of(context).size.height)*2;
+
       return RawKeyboardListener(
         focusNode:FocusNode(),
         autofocus:true,
