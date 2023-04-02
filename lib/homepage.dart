@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pong_flutter_game/coverscreen.dart';
+import 'package:pong_flutter_game/scorescreen.dart';
 import 'brick.dart';
 import 'ball.dart';
 
@@ -23,10 +24,14 @@ class _HomePageState extends State<HomePage> {
   double ballX = 0;
   double ballY = 0;
 
-  double playerX = 0;
   double brickWidth = 0.4;
 
+  double playerX = 0;
+  int playerScore = 0;
+  
+
   double enemyX = 0;
+  int enemyScore = 0;
 
   //initial direcion of the ball is downwards
   var ballYDirection = direction.DOWN;
@@ -53,6 +58,12 @@ class _HomePageState extends State<HomePage> {
       moveEnemy();
       //
       if(isPlayerDead()){
+        enemyScore++;
+        timer.cancel();
+        _showDialog();
+      }
+      if(isEnemyDead()){
+        playerScore++;
         timer.cancel();
         _showDialog();
       }
@@ -87,15 +98,15 @@ class _HomePageState extends State<HomePage> {
   void moveBall(){
     setState(() {
       if(ballYDirection == direction.DOWN){
-        ballY += 0.01;
+        ballY += 0.005;
       }else if(ballYDirection == direction.UP){
-        ballY -= 0.01;
+        ballY -= 0.005;
       }
 
       if(ballXDirection == direction.RIGHT){
-        ballX += 0.01;
+        ballX += 0.005;
       }else if(ballXDirection == direction.LEFT){
-        ballX -= 0.01;
+        ballX -= 0.005;
       }
     });
   }
@@ -130,6 +141,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  bool isEnemyDead(){
+      if(ballY <=-1){
+        return true;
+      } else {
+        return false;
+      }
+    }
 
   void _showDialog(){
     showDialog(
@@ -189,7 +207,15 @@ class _HomePageState extends State<HomePage> {
               children: [
                 //tap to play
                 CoverScreen(
-                  gameHasStarted: gameHasStarted
+                  gameHasStarted: gameHasStarted,
+                  
+                ),
+
+                //score Screen
+                ScoreScreen(
+                  gameHasStarted: gameHasStarted,
+                  enemyScore: enemyScore,
+                  playerScore: playerScore,
                 ),
                 // top brick (enemy)
                 MyBrick( x: enemyX, y: -0.9, width: brickWidth, thisIsPlayer: false,),
