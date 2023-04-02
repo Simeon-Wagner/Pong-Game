@@ -22,6 +22,7 @@ class ScoreScreen extends StatelessWidget {
 
                   ),
                 ),
+                /*
                 Container(
                   alignment: Alignment(0, -0.3),
                     child: Text(
@@ -29,6 +30,7 @@ class ScoreScreen extends StatelessWidget {
                       style: TextStyle(color:  Colors.grey[800], fontSize: 100),
                       )
                 ),
+                */
                 Container(
                   alignment: Alignment(0, 0.3),
                     child: Text(

@@ -21,7 +21,7 @@ Color? secondaryMenuColor = Colors.teal[50];
 
 class _HomePageState extends State<HomePage> {
 
-  double brickRelWidth = 0;
+  double brickRelHeight = 0;
   // Ball variables
   double ballX = 0;
   double ballY = 0;
@@ -83,15 +83,39 @@ class _HomePageState extends State<HomePage> {
       ballY = 0;
       playerX = -0.2;
       enemyX = -0.2;
+      playerScore = 0;
     });
   }
 
   
   void updateDirection(){
+    /*
     if(ballY >= (0.9-brickRelWidth) && ballX >= playerX && ballX <= playerX + brickWidth){
       ballYDirection = direction.UP;
-    } else if(ballY <= (-0.9+brickRelWidth) && ballX >= enemyX && ballX <= enemyX+brickWidth) {
+    } 
+    */
+    if(ballY >= (0.9-brickRelHeight) && ballX >= playerX && ballX <= (playerX+brickWidth/3)) {
+      ballYDirection = direction.UP;
+      ballXDirection = direction.LEFT;
+      playerScore++;
+    } else if(ballY >= (0.9-brickRelHeight) && ballX > (playerX+brickWidth/3) && ballX <= (playerX+brickWidth*2/3)) {
+      ballYDirection = direction.UP;
+      playerScore++;
+    } else if(ballY >= (0.9-brickRelHeight) && ballX > (playerX+brickWidth*2/3) && ballX <= (playerX+brickWidth)) {
+      ballYDirection = direction.UP;
+      ballXDirection = direction.RIGHT;
+      playerScore++;
+    } 
+    
+    
+    else if(ballY <= (-0.9+brickRelHeight) && ballX >= enemyX && ballX <= (enemyX+brickWidth/3)) {
       ballYDirection = direction.DOWN;
+      ballXDirection = direction.LEFT;
+    } else if(ballY <= (-0.9+brickRelHeight) && ballX > (enemyX+brickWidth/3) && ballX <= (enemyX+brickWidth*2/3)) {
+      ballYDirection = direction.DOWN;
+    } else if(ballY <= (-0.9+brickRelHeight) && ballX > (enemyX+brickWidth*2/3) && ballX <= (enemyX+brickWidth)) {
+      ballYDirection = direction.DOWN;
+      ballXDirection = direction.RIGHT;
     }
 
     if(ballX >= 1){
@@ -104,16 +128,16 @@ class _HomePageState extends State<HomePage> {
   void moveBall(){
     setState(() {
       if(ballYDirection == direction.DOWN){
-        ballY += 0.005;
+        ballY += 0.01;
       }else if(ballYDirection == direction.UP){
-        ballY -= 0.005;
+        ballY -= 0.01;
       }
 
       if(ballXDirection == direction.RIGHT){
-        ballX += 0.005;
+        ballX += 0.007;
       }else if(ballXDirection == direction.LEFT){
-        ballX -= 0.005;
-      }
+        ballX -= 0.007;
+      } 
     });
   }
 
@@ -193,8 +217,9 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
-    //Just a try
-    brickRelWidth = (20 / MediaQuery.of(context).size.height)*2;
+    //Getting the width relative to the screen size
+    brickRelHeight = (20 / MediaQuery.of(context).size.height)*2;
+    
 
       return RawKeyboardListener(
         focusNode:FocusNode(),
