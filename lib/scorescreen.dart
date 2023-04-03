@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 class ScoreScreen extends StatelessWidget {
   final bool gameHasStarted;
+  final bool itemCollected;
   final enemyScore;
   final playerScore;
 
 
-  ScoreScreen({required this.gameHasStarted, this.enemyScore, this.playerScore});
+  ScoreScreen({required this.gameHasStarted, required this.itemCollected, this.enemyScore, this.playerScore});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,14 @@ class ScoreScreen extends StatelessWidget {
                     style: TextStyle(color:  Colors.grey[800], fontSize: 100),
                     )
                 ),
+
+                itemCollected? Container(
+                  alignment: Alignment(0,-0.5),
+                  child: Text(
+                    "Item Collected, ball speed incresed!",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ) : Container(),
     ]
     ): Container();
   }
